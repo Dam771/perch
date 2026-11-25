@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>栖 PERCH — Silkworm Art World</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #11130f;
+  --cream: #e9e8dc;
+  --green: #9ba987;
+  --muted: #85877d;
+}
+
+* { box-sizing:border-box; margin:0; }
+body {
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'DM Sans','Noto Serif SC',sans-serif;
+  overflow-x:hidden;
+}
+button { font:inherit; cursor:pointer; }
+
+header {
+  height:76px;
+  padding:0 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #ffffff18;
+}
+.logo { letter-spacing:5px; font-size:19px; }
+.logo span { color:#a5b095; }
+.nav { display:flex; gap:28px; align-items:center; }
+.nav button {
+  background:none; border:0; color:#aaa99d;
+  font-size:12px; letter-spacing:1px;
+}
+.nav button:hover { color:white; }
+.status { font-size:10px; color:#aab69a; letter-spacing:2px; }
+
+.hero {
+  min-height:660px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:65px 9%;
+  gap:30px;
+}
+.eyebrow {
+  color:#a8b293; letter-spacing:4px;
+  font-size:10px; margin-bottom:28px;
+}
+h1 {
+  font-family:'Noto Serif SC',serif;
+  font-size:clamp(55px,8vw,100px);
+  font-weight:400; letter-spacing:12px;
+  line-height:1.25;
+}
+.subtitle {
+  margin-top:24px; color:#a9aa9e;
+  font-size:13px; letter-spacing:2px;
+}
+.intro {
+  max-width:350px; margin-top:38px;
+  font-size:13px; line-height:2.2; color:#aaa99f;
+}
+.actions { display:flex; gap:12px; margin-top:38px; }
+.actions button {
+  padding:14px 23px; font-size:11px;
+  letter-spacing:2px; transition:.3s;
+}
+.primary { background:#dce0ce; color:#20231b; border:1px solid #dce0ce; }
+.secondary { background:transparent; color:#ddd; border:1px solid #55584d; }
+.actions button:hover { transform:translateY(-3px); }
+
+.art-stage {
+  height:480px; position:relative;
+  display:flex; justify-content:center; align-items:center;
+  perspective:900px;
+}
+.glow {
+  position:absolute; width:340px; height:340px;
+  background:radial-gradient(circle,#78876b30,transparent 70%);
+  filter:blur(15px);
+}
+.leaf {
+  position:relative; width:225px; height:335px;
+  background:
+    radial-gradient(ellipse at 35% 20%,transparent 0 5%,#253b23 6% 7%,transparent 8%),
+    radial-gradient(ellipse at 68% 45%,transparent 0 8%,#1c321d 9% 10%,transparent 11%),
+    radial-gradient(ellipse at 35% 70%,transparent 0 6%,#263d25 7% 8%,transparent 9%),
+    linear-gradient(115deg,#899b6e,#405b3c 45%,#82936a);
+  border-radius:5% 95% 5% 95% / 45% 55% 45% 55%;
+  transform:rotate(-30deg);
+  box-shadow:0 0 65px #8a9b6530,inset 0 0 35px #172718;
+  animation:float 7s ease-in-out infinite;
+}
+.leaf:before {
+  content:""; position:absolute;
+  width:2px; height:110%;
+  background:#bdc59a;
+  top:-4%; left:49%; transform:rotate(22deg);
+  box-shadow:0 0 8px #dce6b5;
+}
+.leaf:after {
+  content:""; position:absolute; inset:8%;
+  background:
+  linear-gradient(25deg,transparent 49.5%,#c1cba0 50%,transparent 50.5%),
+  linear-gradient(55deg,transparent 49.5%,#c1cba0 50%,transparent 50.5%),
+  linear-gradient(85deg,transparent 49.5%,#c1cba0 50%,transparent 50.5%),
+  linear-gradient(115deg,transparent 49.5%,#c1cba0 50%,transparent 50.5%);
+  opacity:.38;
+}
+.hole {
+  position:absolute; z-index:2;
+  width:29px; height:36px;
+  border-radius:50%;
+  background:#10120e;
+  box-shadow:0 0 12px #d4e0b0aa;
+}
+.hole.one { top:23%; left:65%; }
+.hole.two { top:52%; left:25%; width:22px;height:26px; }
+.hole.three { top:72%; left:63%; width:16px;height:21px; }
+
+.orbit {
+  position:absolute; width:370px; height:370px;
+  border:1px solid #c3cda222;
+  border-radius:50%;
+  animation:spin 30s linear infinite;
+}
+.orbit:after {
+  content:""; position:absolute;
+  top:0; left:50%; width:5px;height:5px;
+  background:#d7e1b7;border-radius:50%;
+  box-shadow:0 0 14px white;
+}
+.caption {
+  position:absolute; bottom:15px;
+  color:#85877d; font-size:10px; letter-spacing:3px;
+}
+@keyframes float {
+  0%,100% { transform:rotate(-30deg) translateY(0); }
+  50% { transform:rotate(-25deg) translateY(-15px); }
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+section { padding:90px 9%; border-top:1px solid #ffffff18; }
+.section-top { display:flex; justify-content:space-between; align-items:end; }
+h2 { font-family:'Noto Serif SC',serif; font-size:35px; font-weight:400; }
+.section-desc { color:#85877d; font-size:12px; line-height:2; margin-top:15px; }
+.cards {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:15px; margin-top:45px;
+}
+.card {
+  min-height:190px; border:1px solid #ffffff20;
+  padding:25px; display:flex; flex-direction:column;
+  justify-content:space-between; transition:.3s;
+  background:#ffffff04;
+}
+.card:hover { background:#ffffff0b; border-color:#a7b18a88; }
+.card-no { font-size:10px; color:#a5b18d; letter-spacing:2px; }
+.card h3 { font-family:'Noto Serif SC',serif; font-size:21px; font-weight:400; }
+.card p { color:#85877d; font-size:11px; margin-top:9px; line-height:1.8; }
+
+.exhibition {
+  background:radial-gradient(ellipse at 50% 30%,#343b2c,#11130f 65%);
+  text-align:center; padding-top:110px; padding-bottom:110px;
+}
+.exhibition .eyebrow { margin-bottom:18px; }
+.exhibition h2 { font-size:42px; }
+.exhibition p { color:#a3a495; font-size:12px; margin-top:20px; }
+.controls { margin-top:35px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+.controls button {
+  background:transparent; border:1px solid #77796a;
+  color:#ddd; padding:12px 20px; font-size:11px;
+  letter-spacing:1px;
+}
+.controls button.active { background:#dce0ce; color:#20231b; }
+footer {
+  padding:30px 5%; display:flex; justify-content:space-between;
+  color:#77796f; font-size:10px; letter-spacing:2px;
+}
+
+body.first-person .hero { background:radial-gradient(ellipse at 70% 50%,#263727,#11130f 65%); }
+body.first-person .leaf { transform:scale(1.4) rotate(-30deg); }
+body.lights-off .art-stage { background:#080908; }
+body.lights-off .glow { opacity:.15; }
+body.lights-off .leaf { filter:brightness(.55); }
+
+@media(max-width:700px) {
+  header { padding:0 5%; }
+  .nav { gap:12px; }
+  .nav button { font-size:10px; }
+  .hero { grid-template-columns:1fr; padding:65px 7%; }
+  .art-stage { height:390px; }
+  .cards { grid-template-columns:1fr; }
+  section { padding:70px 7%; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">PERCH <span>栖</span></div>
+  <nav class="nav">
+    <button onclick="setView('panorama')">PANORAMA</button>
+    <button onclick="setView('first')">FIRST PERSON</button>
+    <span class="status">● OPEN WORLD</span>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">AN INTERACTIVE SILKWORM ART WORLD</div>
+      <h1>栖</h1>
+      <div class="subtitle">一个蚕宝宝的艺术世界</div>
+      <p class="intro">
+        在这里，你是一只蚕宝宝。<br>
+        你可以探索自己的世界，也可以创造、收藏和展示艺术。
+        世界不止一种观看方式。
+      </p>
+      <div class="actions">
+        <button class="primary" onclick="setView('first')">进入探索 ↗</button>
+        <button class="secondary" onclick="setView('panorama')">全景观看</button>
+      </div>
+    </div>
+    <div class="art-stage">
+      <div class="glow"></div>
+      <div class="orbit"></div>
+      <div class="leaf">
+        <div class="hole one"></div>
+        <div class="hole two"></div>
+        <div class="hole three"></div>
+      </div>
+      <div class="caption">LEAF / LIGHT / LIFE</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-top">
+      <div>
+        <div class="eyebrow">THE WORLD OF PERCH</div>
+        <h2>世界的两种观看方式</h2>
+        <p class="section-desc">同一个身份，两种不同的感知。</p>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card" onclick="setView('first')">
+        <div class="card-no">01 / EXPERIENCE</div>
+        <div>
+          <h3>第一人称 · 探索</h3>
+          <p>进入桑叶内部，感受叶脉、虫洞与微观世界。</p>
+        </div>
+      </div>
+      <div class="card" onclick="setView('panorama')">
+        <div class="card-no">02 / ARTIST</div>
+        <div>
+          <h3>全景视角 · 创作</h3>
+          <p>观看展览、创造作品，成为蚕界的艺术家。</p>
+        </div>
+      </div>
+      <div class="card" onclick="openNight()">
+        <div class="card-no">03 / NIGHT</div>
+        <div>
+          <h3>夜间展览 · 栖</h3>
+          <p>虫洞投影与旋转走马灯组成的光影剧场。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="exhibition" id="night">
+    <div class="eyebrow">NIGHT EXHIBITION / 001</div>
+    <h2>被吃掉的月亮</h2>
+    <p>当叶片被穿透，光便有了形状。</p>
+    <div class="controls">
+      <button id="rotate" class="active" onclick="toggleRotate()">旋转走马灯：开启</button>
+      <button onclick="toggleLights()">切换灯光</button>
+      <button onclick="setView('first')">进入虫洞 ↗</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>PERCH / 栖</span>
+  <span>AN ART WORLD BY A SILKWORM</span>
+  <span>2026</span>
+</footer>
+
+<script>
+let rotating = true;
+
+function setView(view) {
+  document.body.classList.toggle('first-person',view==='first');
+  document.querySelector('.subtitle').textContent =
+    view==='first' ? '第一人称 · 蚕宝宝的世界' : '全景视角 · 蚕界艺术家';
+  document.querySelector('.eyebrow').textContent =
+    view==='first' ? 'ENTER THE LEAF WORLD' : 'AN INTERACTIVE SILKWORM ART WORLD';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleRotate() {
+  rotating = !rotating;
+  document.querySelector('.orbit').style.animationPlayState =
+    rotating ? 'running' : 'paused';
+  document.getElementById('rotate').textContent =
+    '旋转走马灯：'+(rotating?'开启':'暂停');
+  document.getElementById('rotate').classList.toggle('active',rotating);
+}
+
+function toggleLights() {
+  document.body.classList.toggle('lights-off');
+}
+
+function openNight() {
+  document.getElementById('night').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
